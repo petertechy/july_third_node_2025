@@ -4,7 +4,7 @@ const addUser = (req, res) => {
   let form = new UserModel(req.body);
   form.save().then(() => {
     console.log("User info Saved");
-    // console.log(form);
+    console.log(form);
     res.send({ status: true, message: "Correct Submission", form });
   });
 };
