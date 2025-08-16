@@ -40,3 +40,4 @@ let UserModel = mongoose.model(
   );
 
   module.exports = UserModel
+  
