@@ -1,4 +1,5 @@
 const UserModel = require("../models/userModel");
+const jwt = require('jsonwebtoken')
 
 const addUser = (req, res) => {
   let form = new UserModel(req.body);
@@ -20,7 +21,9 @@ const authenticateUser = (req, res) =>{
         if(!same){
           res.send({status: false, message: "wrong details"})
         }else{
-          res.send({status: true, message: "user logged in"})
+          let token = jwt.sign({email: req.body.email}, "secret", {expiresIn: "2m"})
+          // console.log(token)
+          res.send({status: true, message: "user logged in", token})
 
         }
       })
@@ -34,6 +37,21 @@ const authenticateUser = (req, res) =>{
   })
 }
 
+const getDashboard = (req, res)=>{
+let token =   req.headers.authorization.split(" ")[1]
+  // console.log(token)
+  jwt.verify(token, "secret", (err, result)=>{
+    if(err){
+      console.log(err)
+      res.send({status:false, message: "Invalid Token or expired"})
+    }else{
+      console.log(result)
+      res.send({status:true, message: "Valid Token"})
+    }
+  })
+
+}
+
 const editUser = () => {};
 
-module.exports = { addUser, editUser, authenticateUser };
+module.exports = { addUser, editUser, authenticateUser, getDashboard };
