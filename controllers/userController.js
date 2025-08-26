@@ -1,5 +1,13 @@
 const UserModel = require("../models/userModel");
 const jwt = require('jsonwebtoken')
+const cloudinary = require('cloudinary')
+
+ cloudinary.config({
+      cloud_name: "dcntfpntm", 
+      api_key: "963429939113368", 
+      api_secret : "-Vp9g6gGPNox2OJ7EzMPCAAxZqU",
+ }
+    )
 
 const addUser = (req, res) => {
   let form = new UserModel(req.body);
@@ -52,6 +60,20 @@ let token =   req.headers.authorization.split(" ")[1]
 
 }
 
+const uploadFile = (req, res) =>{
+  let file = req.body.file
+  cloudinary.v2.uploader.upload(file, (err, result)=>{
+    if(err){
+      console.log("File could not upload")
+      console.log(err)
+    }else{
+      console.log("File uploaded successfully")
+      let myFile = result.secure_url
+      res.send({message: "File Uploaded", status: true, myFile})
+    }
+  })
+}
+
 const editUser = () => {};
 
-module.exports = { addUser, editUser, authenticateUser, getDashboard };
+module.exports = { addUser, editUser, authenticateUser, getDashboard, uploadFile };
