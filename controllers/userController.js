@@ -77,3 +77,9 @@ const uploadFile = (req, res) =>{
 const editUser = () => {};
 
 module.exports = { addUser, editUser, authenticateUser, getDashboard, uploadFile };
+
+//API TESTING
+// Thunder Client
+// Postman
+// Swagger
+// Insomia
